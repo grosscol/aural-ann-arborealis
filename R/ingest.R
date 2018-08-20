@@ -14,13 +14,16 @@ fname8 <- "data/htrepoalt_audio_mets_runtime.txt"
 
 
 ## Read data frames
-df1 <- read_tsv(fname1)
-colnames(df1) <- c("id", "bsdate", "title", "duration")
+df1_cols <- c("id", "shipment", "title", "medium", "duration")
+df1 <- read_tsv(fname1, col_names = df1_cols, col_types = "ccccc")
+
 df2 <- read_csv(fname2)
 df3 <- read_tsv(fname3)
 df4 <- read_csv(fname4)
 df5 <- read_tsv(fname5)
-df6 <- read_tsv(fname6)
+
+df6 <- read_tsv(fname6, col_types = "i_ccc")
+
 df7 <- read_tsv(fname7)
 df8 <- read_tsv(fname8)
 
