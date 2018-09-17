@@ -36,6 +36,13 @@ barcode_shipment_sets <- list(df1, df2, df4, df7)
 shipment_only_data <- df3
 
 barcode_filename_consolidated <- barcode_filename_sets %>% 
-  Reduce(function(lhs, rhs) { left_join(lhs, rhs, by = c("barcode", "filename")) }, .)
+  Reduce(function(lhs, rhs) { full_join(lhs, rhs, by = c("barcode", "filename")) }, .)
+
+barcode_shipment_consolidated <- barcode_shipment_sets %>%
+  Reduce(function(lhs, rhs) { full_join(lhs, rhs, by = c("shipment", "barcode")) }, .) %>% unique
+
+duplicate_indices <- which(duplicated(barcode_shipment_consolidated[, c("barcode", "shipment")]))
+duplicate_df <- unique(barcode_shipment_consolidated[duplicate_indices, c("barcode", "shipment")])
+conflicting_df <- semi_join(barcode_shipment_consolidated, duplicate_df, by = c("barcode", "shipment"))
 
 ## Write to disk
